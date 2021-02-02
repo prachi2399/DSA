@@ -42,4 +42,15 @@ public class question{
         return res;
     }
     //
+    int maxSumLTL = -1e8; // max sum leaf to leaf.
+    int leafToLeafPathSum(TreeNode node){
+    if(node==null) return -1e8;
+    int lPathSum=leafToLeafPathSum(node.left);
+    int rPathSum=leafToLeafPathSum(node.right);
+    if(root.left==null&&root.right==null) return root.val;
+    if(root.left!=null&&root.right!=null){
+        maxSumLTL=Math.max(maxSumLTL,lPathSum+rPathSum+root.val);
+        return Math.max(lPathSum,rPathSum)+root.val;
+    }
+}
 }
