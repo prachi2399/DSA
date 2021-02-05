@@ -53,4 +53,23 @@ public class question{
         return Math.max(lPathSum,rPathSum)+root.val;
     }
 }
+//leetcode 124 max Path Sum
+int maxPathAns=-(int)1e8;
+    public int maxPathSum_(TreeNode root) {
+        if(root==null) return 0;
+        
+        int lPathSum=maxPathSum_(root.left);
+        int rPathSum=maxPathSum_(root.right);
+        
+        int maxTillRoot=Math.max(lPathSum,rPathSum)+root.val;
+        
+        maxPathAns=Math.max(Math.max(maxPathAns,maxTillRoot),Math.max(root.val,lPathSum+rPathSum+root.val));
+        return Math.max(maxTillRoot,root.val);
+        
+    }
+     public int maxPathSum(TreeNode root) {
+        if(root==null) return 0;
+        maxPathSum_(root);
+        return maxPathAns;
+    }
 }
