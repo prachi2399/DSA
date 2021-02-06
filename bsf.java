@@ -182,4 +182,80 @@ public class bsf{
             minWidth++;
         }
     }
+    // alternate way Vertical Order
+    public static void width(int[] minMax, int level){
+        if(node==null){return;}
+        minMax[0]=Math.min(minMax[0],level);
+        minMax[1]=Math.max(minMax[1],level);
+        width(minMax.left,level-1);
+        width(minMax.right,level+1); 
+    }
+
+    public List<List<Integer> verticalTraversal_02(TreeNode root){
+        int[] minMax=new int[2];
+        width(minMax,0);
+        int n=minMax[0]-minMax[1];
+        ArrayList<Integer>[] ans=new ArrayList[n];
+        for(int i=0;i<n;i++){
+            ans[i]=new ArrayList<>();
+        }
+
+        LinkedList<Pair> que=new LinkedList<>();
+        que.add(new Pair(root,0));
+        while(que.size()>0){
+            int size=que.size();
+            while(size-->0){
+                TreeNode rem=que.removeFirst();
+                ans[rem.width].add(rem.node.val);
+                if(rem.node.left!=null) que.addLast(new Pair(rem.node.left,rem.width-1));
+                if(rem.node.right!=null) que.addLast(new Pair(rem.node.right,rem.width+1));
+            }
+        }
+    }
+
+    public int[] verticalSum(TreeNode root){
+        int[] minMax=new int[2];
+        width(minMax,0);
+        int n=minMax[0]-minMax[1];
+        int[] ans=new int[n];
+        for(int i=0;i<n;i++){
+            ans[i]=new ArrayList<>();
+        }
+
+        LinkedList<Pair> que=new LinkedList<>();
+        que.add(new Pair(root,0));
+        while(que.size()>0){
+            int size=que.size();
+            while(size-->0){
+                TreeNode rem=que.removeFirst();
+                ans[rem.width]+=rem.node.val;
+                if(rem.node.left!=null) que.addLast(new Pair(rem.node.left,rem.width-1));
+                if(rem.node.right!=null) que.addLast(new Pair(rem.node.right,rem.width+1));
+            }
+        }
+        return ans;
+    }
+
+    public int[] bottomView(TreeNode root){
+        int[] minMax=new int[2];
+        width(minMax,0);
+        int n=minMax[0]-minMax[1];
+        int[] ans=new int[n];
+        for(int i=0;i<n;i++){
+            ans[i]=new ArrayList<>();
+        }
+
+        LinkedList<Pair> que=new LinkedList<>();
+        que.add(new Pair(root,0));
+        while(que.size()>0){
+            int size=que.size();
+            while(size-->0){
+                TreeNode rem=que.removeFirst();
+                ans[rem.width]=rem.node.val;
+                if(rem.node.left!=null) que.addLast(new Pair(rem.node.left,rem.width-1));
+                if(rem.node.right!=null) que.addLast(new Pair(rem.node.right,rem.width+1));
+            }
+        }
+        return ans;
+    }
 }
