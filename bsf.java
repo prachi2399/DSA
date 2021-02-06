@@ -145,4 +145,41 @@ public class bsf{
         }
         return ans;
     }
+
+    public class Pair{
+        TreeNode node;
+        int width;
+        Pair(TreeNode node, int width){
+        this.node=node;
+        this.width=width;
+        }
+    }
+    public List<List<Integer>> verticalTraversal(TreeNode root){
+        LinkedList<Pair> que=new LinkedList<>();
+        que.add(new Pair(root,0));
+
+        HashMap<Integer,List<Integer>> map=new HashMap<>();
+        int minWidth=0;
+        int maxWidth=0;
+        while(que.size()>0){
+            int size=que.size();
+            while(size-->0){
+                Pair rem=que.removeFirst();
+
+                map.putIfAbsent(rem.width,new ArrayList<Integer>);
+                map.put(rem.width,map.get(rem.width).add(rem.val));
+
+                minWidth=Math.min(minWidth,rem.width);
+                maxWidth=Math.min(mazWidth,rem.width);
+
+                if(rem.node.left!=null) que.addLast(new Pair(rem.node.left,rem.width-1));
+                if(rem.node.right!=null) que.addLast(new Pair(rem.node.right,rem.width+1));
+            }
+        }
+        List<List<Integer> res=new ArrayList<>();
+        while(minWidth<=maxWidth){
+            res.add(map.get(minWidth));
+            minWidth++;
+        }
+    }
 }
