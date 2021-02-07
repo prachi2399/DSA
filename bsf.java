@@ -201,7 +201,7 @@ public class bsf{
         }
 
         LinkedList<Pair> que=new LinkedList<>();
-        que.add(new Pair(root,0));
+        que.add(new Pair(root,-minMax));
         while(que.size()>0){
             int size=que.size();
             while(size-->0){
@@ -223,7 +223,7 @@ public class bsf{
         }
 
         LinkedList<Pair> que=new LinkedList<>();
-        que.add(new Pair(root,0));
+        que.add(new Pair(root,-minMax));
         while(que.size()>0){
             int size=que.size();
             while(size-->0){
@@ -238,15 +238,15 @@ public class bsf{
 
     public int[] bottomView(TreeNode root){
         int[] minMax=new int[2];
-        width(minMax,0);
-        int n=minMax[0]-minMax[1];
+        width(root,minMax,0);
+        int n=minMax[1]-minMax[0]+1;
         int[] ans=new int[n];
         for(int i=0;i<n;i++){
             ans[i]=new ArrayList<>();
         }
 
         LinkedList<Pair> que=new LinkedList<>();
-        que.add(new Pair(root,0));
+        que.add(new Pair(root,-minMax[0]));
         while(que.size()>0){
             int size=que.size();
             while(size-->0){
@@ -255,6 +255,79 @@ public class bsf{
                 if(rem.node.left!=null) que.addLast(new Pair(rem.node.left,rem.width-1));
                 if(rem.node.right!=null) que.addLast(new Pair(rem.node.right,rem.width+1));
             }
+        }
+        return ans;
+    }
+    /// vertical order leetcode
+    public class Pair2{
+        TreeNode node;
+        int x;
+        int y;
+        Pair2(TreeNode node, int x, int y){
+            this.node=node;
+            this.x=x;
+            this.y=y;
+        }
+    }
+    public static void width(TreeNode node, int[] minMax, int level){
+       if(node==null){return;}
+        minMax[0]=Math.min(minMax[0],level);
+        minMax[1]=Math.max(minMax[1],level);
+        width(node.left,minMax,level-1);
+        width(node.right,minMax,level+1); 
+    }
+    
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        PriorityQueue<Pair2> que=new PriorityQueue<>((a,b)->{
+            if(a.y!=b.y) return a.y-b.y;
+            else return a.node.val-b.node.val;
+        });
+        int[] minMax=new int[2];
+        width(root,minMax,0);
+        int n=minMax[1]-minMax[0]+1;
+        List<List<Integer>> ans=new ArrayList<>();
+        for(int i=0;i<n;i++){
+            ans.add(new ArrayList<>());
+        }
+
+        que.add(new Pair2(root,-minMax[0],0));
+        while(que.size()>0){
+            
+                Pair2 rem=que.remove();
+                ans.get(rem.x).add(rem.node.val);
+                if(rem.node.left!=null) que.add(new Pair2(rem.node.left,rem.x-1,rem.y+1));
+                if(rem.node.right!=null) que.add(new Pair2(rem.node.right,rem.x+1,rem.y+1));
+            
+        }
+        return ans;
+    }
+    //diagonal traversal
+    public List<List<Integer>> diagonalTraversal(TreeNode root){
+        LinkedList<Pair> que=new LinkedList<>();
+        que.add(new Pair(root,0));
+
+        HashMap<Integer,List<Integer>> map=new HashMap<>();
+        int minWidth=0;
+        int maxWidth=0;
+        while(que.size()>0){
+            int size=que.size();
+            while(size-->0){
+                Pair rem=que.removeFirst();
+
+                map.putIfAbsent(rem.width,new ArrayList<Integer>);
+                map.get(rem.width).add(rem.node.val);
+
+                minWidth=Math.min(minWidth,rem.width);
+                maxWidth=Math.min(mazWidth,rem.width);
+
+                if(rem.node.left!=null) que.addLast(new Pair(rem.node.left,rem.width-1));
+                if(rem.node.right!=null) que.addLast(new Pair(rem.node.right,rem.width));
+            }
+        }
+        List<List<Integer> res=new ArrayList<>();
+        while(minWidth<=maxWidth){
+            res.add(map.get(minWidth));
+            minWidth++;
         }
         return ans;
     }
