@@ -72,4 +72,36 @@ int maxPathAns=-(int)1e8;
         maxPathSum_(root);
         return maxPathAns;
     }
+    //deepest left node
+    static int maxLevel=0;
+    static Node result=null;
+    void deepestLeftLeafUtil(Node node,  int lvl, boolean isLeft){
+        if(node==null) return ;
+        if(isLeft&&node.left==null&&node.right==null&&lvl>maxLevel){
+            maxLevel=lvl;
+            result=node;
+        }
+        deepestLeftLeafUtil(node.left,lvl+1,true);
+        deepestLeftLeafUtil(node.right,lvl+1,false);
+    }
+    void deepestLeftLeaf(Node node)  
+    { 
+        if(node==null) return null;
+        deepestLeftLeafUtil(node, 0, false); 
+        System.out.println(result);
+    } 
+    //count subtree with given sum;
+    int countSubtreeSum(Node node, int count, int X){
+        if(node==null) return 0;
+        int lans=countSubtreeSum(node.left,count,x);
+        int rans=countSubtreeSum(node.right,count,x);
+        int sum=lans+rans+root.data;
+        if(sum==X) count++;
+        return sum; 
+    }
+    int subtreeSum(Node node, int X){
+        int count=0;
+        countSubtreeSum(node,count,X);
+        return count;
+    }
 }
