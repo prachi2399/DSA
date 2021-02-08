@@ -104,4 +104,24 @@ int maxPathAns=-(int)1e8;
         countSubtreeSum(node,count,X);
         return count;
     }
+
+       //convert tree to sum tree;
+       int sumTree(Node node){
+           if(node==null) return 0;
+           int nodeVal=node.data;
+           int lans=sumTree(node.left);
+           int rans=sumTree(node.right);
+           node.data=lans+rans;
+           return node.data+nodeVal;
+       }
+
+       // convert tree into left sum;
+       int LeftSumTree(Node node){
+        if(node==null) return 0;
+        if(node.left==null&&node.right==null) return node.data;
+        int lans=sumTree(node.left);
+        int rans=sumTree(node.right);
+        node.data=lans+node.data;
+        return node.data+rans;
+    }
 }
