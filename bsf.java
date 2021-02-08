@@ -331,4 +331,46 @@ public class bsf{
         }
         return ans;
     }
+
+    //boundary traversal of tree
+    public void printLeftTree(TreeNode node){
+        if(node==null) return;
+        if(node.left!=null){
+            System.out.println(node.data+" ");
+            printLeftTree(node.left);
+        }
+        else if(node.right!=null){
+            System.out.print(node.data+" ");
+            printLeftTree(node.right);
+        }
+    }
+
+    public void printRightTree(TreeNode node){
+        if(node==null) return;
+        if(node.right!=null){
+            printRightTree(node.right);
+            System.out.println(node.data+" ");
+        }
+        else if(node.left!=null){
+            printRightTree(node.left);
+            System.out.println(node.data+" ");
+        }
+    }
+    public void printLeafs(TreeNode node){
+        if(node==null) return;
+
+        printLeafs(node.left);
+        if(node.left==null&&node.right==null) return true;
+        printLeafs(node.right);
+    }
+    public void boundaryTraversal(TreeNode node){
+        if(node==null) return;
+
+        printLeftTree(node.left);
+        
+        printLeafs(node.left);
+        printLeafs(node.right);
+
+        printRightTree(node.right);
+    }
 }
