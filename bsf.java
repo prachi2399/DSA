@@ -373,4 +373,29 @@ public class bsf{
 
         printRightTree(node.right);
     }
+    // 
+    void printSpecificLevelOrder(Node node)  
+    { 
+      if(node==null) return;
+      System.out.println(node.data);
+      LinkedList<Integer> que=new LinkedList<>();
+    
+      if(node.left.left!=null) return;
+
+      que.add(node.left);
+      que.add(node.right);
+      while(que.size()>0){
+          Node one=que.removeFirst();
+          Node two=que.removeFirst();
+          System.out.print(" " + one.left.data + " " +two.right.data); 
+          System.out.print(" " + one.right.data + " " +two.left.data); 
+          if(one.left!=null){ 
+             que.push(one.left);
+             que.push(two.right);
+             que.push(one.right);
+             que.push(two.left);
+          }
+      }
+    }
+ 
 }
