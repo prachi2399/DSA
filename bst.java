@@ -66,6 +66,33 @@ public class bst{
         return true; 
     }
 
+    public class Pair{
+       boolean isBst=true;
+       int maxele=-(int)1e8;
+       int minEle=(int) 1e8;
+       Pair(boolean isBst, int maxele, int minele){
+           this.isBst=isBst;
+           this.maxele=maxele;
+           this.minele=minele;
+       }
+    }
+
+    public Pair isBST(TreeNode root){
+        if(root==null) return new Pair();
+        
+        Pair lans=isBst(root.left);
+        Pair rans=isBst(root.right);
+        
+        Pair myAns=new Pair();
+        if(!lans.isBst||!rans.isBst||left.max>root.val||right.min<root.val){
+            myAns.isBst=false;
+            return myAns;
+        }
+        myAns.minele=Math.min(node.data,lans.minele);
+        myAns.maxele=Math.max(node.data,lans.maxele);
+        return myAns;
+    }
+
     public TreeNode insertIntoBST(TreeNode root, int val) {
         if(root==null) return new TreeNode(val);
         if(root.val>val) root.left=insertIntoBST(root.left,val);
@@ -75,9 +102,32 @@ public class bst{
     }
 
     public TreeNode insertIntoBST_(TreeNode root, int val){
-
+     
     }
     
+    public TreeNode DeleteInBST_(TreeNode root, int val){
+     if(root==null) return;
+     if(root.data>val) root.left= DeleteInBST_(root.right,val);
+     else if(root.data<val) root.right=DeleteInBST_(root.right,val);
+     else{
+          maxele=maxEle(root.left);
+          root.val=maxele;
+          root.left=DeleteInBST_(root.left,mval);
+     }
+     return root;
+    }
+
+    public TreeNode createBST(int[] arr, int si, int ei) {
+        if(si>ei) return null;
+        int mid=si+ei/2;
+        TreeNode root=new TreeNode(arr[mid]);
+        root.left=createBST(arr,si,mid-1);
+        root.right=createBST(arr,mid+1,ei);
+        return root;
+    }
+
+
+
     public TreeNode LCA_Bst(TreeNode root, TreeNode p, TreeNode q){
         if(root==null) return null;
         TreeNode curr=root;
