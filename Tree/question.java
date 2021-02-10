@@ -124,4 +124,27 @@ int maxPathAns=-(int)1e8;
         node.data=lans+node.data;
         return node.data+rans;
     }
+
+    //clone tree with random pointers
+    public static Tree copyLeftRightTree(Tree tree,HashMap<Tree,Tree> map){
+        if(tree==null) return null;
+        Tree clone=new Tree(tree.data);
+        map.put(tree,clone);
+        clone.left=copyLeftRightTree(tree.left,map);
+        clone.right=copyLeftRightTree(tree.right,map);
+        return clone;
+      }
+      
+     public static void copyRandom(Tree root, Tree clone , HashMap<Tree,Tree> map){
+         if(root==null) return;
+         clone.random=map.get(root.random);
+         copyRandom(root.left,clone.left,map);
+         copyRandom(root.right,clone.right,map);
+     } 
+     public static Tree cloneTree(Tree tree){
+        HashMap<Tree,Tree> map=new HashMap<>();
+        Tree clone=copyLeftRightTree(tree,map);
+         copyRandom(tree,clone,map);
+         return clone;
+     }
 }
