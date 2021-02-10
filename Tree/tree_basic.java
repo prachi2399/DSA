@@ -260,7 +260,18 @@ public class tree_basics{
         }
 
     }
-
+    
+    public TreeNode doubleTree(TreeNode node){
+        if(node==null) return node;
+        
+        TreeNode lans=doubleTree(node.left);
+        TreeNode rans=doubleTree(node.right);
+        
+        TreeNode nNode=new TreeNode(node.val);
+        node.left=nNode;
+        nNode.left=lans;
+        node.right=rans;
+    }
     public static void solve(){
         int[] arr={10,20,40,-1,-1,50,80,-1,-1,90,-1,-1,30,60,100,-1,-1,-1,70,110,-1,-1,120,-1,-1};
         Node root=constructTree(arr);
