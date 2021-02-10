@@ -147,4 +147,38 @@ int maxPathAns=-(int)1e8;
          copyRandom(tree,clone,map);
          return clone;
      }
+     //maximum leaf to root path;
+     public int maxSum=0;
+     public TreeNode leafNode=null;
+     public int maxPath(TreeNode root, int currSum){
+          if(node==null) return 0;
+          currSum+=node.val;
+          if(node.left==null&&node.right==null){
+            if(currSum>maxSum){
+                maxSum=currSum;
+                leafNode=node;
+            }
+          }
+          maxPath(root.left,currSum);
+          maxPath(root.right,currSum);
+     }
+
+     public int maxPath(TreeNode root){
+         if(root==null) return 0;
+         maxPath(root,0);
+     }
+     //
+     public static boolean leafSameLevel(TreeNode node){
+       if(node==null) return true;
+       int leftLevel=0;
+       int curr=node;
+       while(curr.left!=null){
+           leftLevel++;
+           curr=curr.left;
+         } 
+        if(node.left==null&&node.right==null){
+        return leftLevel==level;
+       } 
+       return leafSameLevel(node.left)&&leafSameLevel(node.right);
+     }
 }
