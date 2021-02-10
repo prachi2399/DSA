@@ -443,5 +443,60 @@ public class bsf{
         } 
         return ans;
      }
- 
+    //maximum width of binary tree
+    int maxWidth(Node root, int k) {
+        if(root==null) return null;
+        LinkedList<Node> que=new LinkedList<>();
+        que.add(root);
+        int  maxwidth=0;
+        while(que.size()>0){
+            int size=que.size();
+            maxwidth=Math.max(maxwidth,size);
+            for(int i=0;i<size;i++){
+            Node temp=que.removeFirst();
+            if(temp.node.data==k){
+                if(i==size-1){
+                    ans=null;
+                }
+                else ans=que.getFirst().node;
+            }
+            if(temp.left!=null) que.addLast(temp.left);
+            if(temp.right!=null) que.addLast(temp.right);
+            }
+        } 
+        return maxwidth;
+     }
+
+     // check id leafs are at same level
+     public static boolean checkLeaf(TreeNode root){
+         if(root==null) return true
+        LinkedList<TreeNode> que=new LinkedList<>();
+        que.addLast(root);
+        int level=0;
+        int result=-(int) 1e8;
+        System.out.print("Level"+level);
+        while(que.size()>0){
+            int size=que.size();
+            while(size-->0){
+                TreeNode rem=que.removeFirst();
+                System.out.print(rem.data);
+                if(rem.left!=null) {
+                    if(rem.left.left==null&&rem.right.right==null){
+                     if(result==-(int)1e8) result=level;
+                     else if(result!=level) return true;
+                    }
+                    que.addLast(rem.left);
+                }
+                if(rem.right!=null) {
+                    if(rem.left.left==null&&rem.right.right==null){
+                        if(result==-(int)1e8) result=level;
+                        else if(result!=level) return true;
+                       }
+                    que.addLast(rem.right);
+                }
+            }
+            System.out.println();
+            level++;
+        }
+    }
 }
