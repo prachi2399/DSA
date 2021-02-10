@@ -126,6 +126,34 @@ public class bst{
         return root;
     }
 
+    ////
+    public void KthSmallestElement_(Node root, ArrayList<Integer> ans) 
+    {
+     if(root==null) return;
+      KthSmallestElement_(root.left,ans);
+      ans.add(root.data);
+      KthSmallestElement_(root.right,ans);
+    }
+    public int KthSmallestElement(Node root, int k) 
+    {
+     if(root==null) return 0;
+      ArrayList<Integer> ans=new ArrayList<>();
+      KthSmallestElement_(root,ans);
+      return k>ans.size()?-1:ans.get(k-1);
+    }
+
+    //Alt
+    public Node KthSmallestElement(Node root, int k) 
+    {
+      if(root==null) return 0;
+      int count=0;
+      Node left=KthSmallestElement(root.left,k);
+      if(left!=null) return left;
+      count++;
+      if(count==k) return root; 
+      Node right=KthSmallestElement(root.right,k);
+    }
+
 
 
     public TreeNode LCA_Bst(TreeNode root, TreeNode p, TreeNode q){
