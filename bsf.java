@@ -397,5 +397,51 @@ public class bsf{
           }
       }
     }
+    // connect Node at same level
+    public Node connect(Node root) {
+        if(root==null) return null;
+        LinkedList<Node> que=new LinkedList<>();
+        que.add(root);
+        Node temp=null;
+        while(que.size()>0){
+           
+            int size=que.size();
+            for(int i=0;i<size;i++){
+              Node prev=temp;
+            temp=que.removeFirst();
+            if(i>0){
+                prev.next=temp;
+            }
+            if(temp.left!=null) que.addLast(temp.left);
+            if(temp.right!=null) que.addLast(temp.right);
+            }
+            temp.next=null;
+            temp=temp.next;
+        } 
+         return root;
+     }
+
+     //find next right node;
+     Node nextRight(Node root, int k) {
+        if(root==null) return null;
+        LinkedList<Node> que=new LinkedList<>();
+        que.add(root);
+        Node ans=null;
+        while(que.size()>0){
+            int size=que.size();
+            for(int i=0;i<size;i++){
+            Node temp=que.removeFirst();
+            if(temp.node.data==k){
+                if(i==size-1){
+                    ans=null;
+                }
+                else ans=que.getFirst().node;
+            }
+            if(temp.left!=null) que.addLast(temp.left);
+            if(temp.right!=null) que.addLast(temp.right);
+            }
+        } 
+        return ans;
+     }
  
 }
