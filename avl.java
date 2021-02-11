@@ -99,7 +99,13 @@ public class avl{
             return rotateSubTree(node);
         }
     }
-
+    // bst to avl
+    public static Node postOrder(Node node){
+        if(node==null) return null;
+        node.left=postOrder(node.left);
+        node.right=postOrder(node.right);
+        return getRotation(node);
+    }
     public static void display(TreeNode node){
         if (node == null)
             return;
