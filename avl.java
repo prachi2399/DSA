@@ -141,6 +141,12 @@ public class avl{
     public static void main(String[] args) {
         solve();
     }
-
+    //  convert normal tree to bst
+    public static Node postOrder(Node node){
+        if(node==null) return null;
+        node.left=postOrder(node.left);
+        node.right=postOrder(node.right);
+        return insertIntoBST(node);
+    }
 
 }
