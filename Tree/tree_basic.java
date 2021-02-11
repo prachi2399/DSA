@@ -272,6 +272,36 @@ public class tree_basics{
         nNode.left=lans;
         node.right=rans;
     }
+
+    public class allSolPair{
+        Node prev=null;
+        Node pred=null;
+        Node succ=null;
+        Node ceil=(int)1e8;
+        Node floor=-(int)1e8;
+    }
+    public static void predSucc(Node root, allSolPair ans){
+       if(root==null) return;
+       predSucc(root.left);
+        if(node.data==data){
+           ans.pred=ans.prev;
+        }
+        if(node.data>data) {
+         ceil=Math.min(ceil,node.data);
+        }
+        else if(node.data<data){
+         floor=Math.max(floor,node.data);
+        }
+        if(ans.prev!=null&&ans.pred.data==data){
+            ans.succ=node;
+        }
+        ans.prev=node;
+       predSucc(root.right);
+    }
+    //contruct tree from inorder preorder
+    public void constructTreeInPre(int[] inorder, int [)
+     
+
     public static void solve(){
         int[] arr={10,20,40,-1,-1,50,80,-1,-1,90,-1,-1,30,60,100,-1,-1,-1,70,110,-1,-1,120,-1,-1};
         Node root=constructTree(arr);
