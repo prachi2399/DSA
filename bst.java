@@ -170,4 +170,40 @@ public class bst{
         }
         return null;
     }
+
+    // pred succ in bst;
+    public class allSolPair{
+        Node prev=null;
+        Node pred=null;
+        Node succ=null;
+    }
+    public void predSucc(Node root, allSolPair ans){
+        Node pred=null;
+        Node succ=null;
+        if(node==null) return;
+        Node curr=root;
+        while(curr!=null){
+            if(curr.data==data){
+            if(curr.left!=null){
+              pred=curr.left;
+              while(pred.right!=null){
+                  pred=pred.right;
+              }
+            }else if(curr.right!=null){
+                succ=curr.right;
+                while(succ.right!=null){
+                    succ=succ.right;
+                }
+              }
+        }
+        else if(curr.data<data){
+            pred=curr;
+            curr=curr.right;
+        }
+        else{
+            succ=curr;
+            curr=curr.left;
+        }
+        } 
+    }
 }
