@@ -181,4 +181,96 @@ int maxPathAns=-(int)1e8;
        } 
        return leafSameLevel(node.left)&&leafSameLevel(node.right);
      }
+
+     //sumOfLongRootToLeafPath
+     int maxLen=0;
+    int maxSum=0;
+    public int sumOfLongRootToLeafPath(Node root)
+    {
+        if(root == null)
+          return 0;
+          
+	sumOfLongRootToLeafPathUtil(root, 0, 0);
+	return maxSum;
+    }
+    
+    public void sumOfLongRootToLeafPathUtil(Node root, int sum, int len)
+    {
+        if(root == null)
+        {
+        if (maxLen < len) 
+        {
+			maxLen = len;
+			maxSum = sum;
+        }
+		else if (maxLen == len && maxSum < sum)
+		   maxSum = sum;
+			
+			return;
+        }
+        
+    sumOfLongRootToLeafPathUtil(root.left, sum + root.data, len + 1);
+	sumOfLongRootToLeafPathUtil(root.right, sum + root.data, len + 1);
+    }
+    //flatten
+    public TreeNode flattern_(TreeNode node) {
+        if (node == null || (node.left == null && node.right == null))
+            return node;
+
+        TreeNode leftTail = flattern_(node.left);
+        TreeNode rightTail = flattern_(node.right);
+
+        if (leftTail != null) {
+            leftTail.right = node.right;
+            node.right = node.left;
+            node.left = null;
+        }
+
+        return rightTail != null ? rightTail : leftTail;
+    }
+
+    public void flatten(TreeNode root) {
+        if (root == null)
+            return;
+        flattern_(root);
+    }
+    // tree to doubly cLL
+    Node dummy = new Node(-1);
+    Node prev = null;
+    Node head=null;
+    public void treeToDoublyList_(Node root) {
+        if (root == null)
+            return;
+
+        treeToDoublyList_(root.left);
+        if(head==null){
+            head=root;
+        }
+        else{prev.right = root;
+        root.left = prev;
+        }
+        prev = root;
+
+        treeToDoublyList_(root.right);
+
+    }
+
+    public Node treeToDoublyList(Node root) {
+
+        if (root == null)
+            return root;
+        treeToDoublyList_(root);
+
+        head.left = null;
+
+        prev.right = head;
+        head.left = prev;
+        return head;
+
+    }
+    
+    Node bTreeToClist(Node root)
+    {
+        return treeToDoublyList(root);
+    } 
 }
