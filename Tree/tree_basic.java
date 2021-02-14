@@ -299,8 +299,61 @@ public class tree_basics{
        predSucc(root.right);
     }
     //contruct tree from inorder preorder
-    public void constructTreeInPre(int[] inorder, int [)
-     
+    public TreeNode construct(int[] preorder, int psi, int pei, int [] inorder, int isi, int iei){
+        if(psi>pei) return null;
+        int idx=isi;
+        TreeNode root=new TreeNode(preorder[psi]);
+        while(inorder[idx]!=preorder[psi]){
+            idx++;
+        }
+        int count=idx-isi;
+        root.left=construct(preorder,psi+1,psi+count, inorder, isi, idx-1);
+        root.right=construct(preorder,psi+count+1,pei, inorder, idx+1,iei);
+        return root;
+        
+    }
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int n=preorder.length;
+        return construct(preorder,0,n-1,inorder,0,n-1);
+    }
+    //inorder postorder 
+    public TreeNode construct(int[] postorder, int psi, int pei, int [] inorder, int isi, int iei){
+        if(psi>pei) return null;
+        TreeNode root=new TreeNode(postorder[pei]);
+        int idx=isi; 
+        while(inorder[idx]!=postorder[pei]){
+            idx++;
+        }
+        int count=idx-isi;
+        root.left=construct(postorder,psi,psi+count-1, inorder, isi, idx-1);
+        root.right=construct(postorder,psi+count,pei-1, inorder, idx+1,iei);
+        return root;
+        
+    }
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+         int n=postorder.length;
+        return construct(postorder,0,n-1,inorder,0,n-1);
+    }
+    
+    //postorder preorder
+    public TreeNode construct(int[] pre, int psi, int pei, int [] post, int ppsi, int ppei){
+        if(psi>pei) return null;  
+        TreeNode root=new TreeNode(pre[psi]);
+        if(psi==pei) return root;
+        int idx=ppsi; 
+        while(post[idx]!=pre[psi+1]){
+            idx++;
+        }
+        int count=idx-ppsi+1;
+        root.left=construct(pre,psi+1,psi+count, post, ppsi, idx);
+        root.right=construct(pre,psi+count+1,pei, post, idx+1,ppei-1);
+        return root;
+        
+    }
+    public TreeNode constructFromPrePost(int[] pre, int[] post) {
+        int n=pre.length;
+        return construct(pre,0,n-1,post,0,n-1);
+    }
 
     public static void solve(){
         int[] arr={10,20,40,-1,-1,50,80,-1,-1,90,-1,-1,30,60,100,-1,-1,-1,70,110,-1,-1,120,-1,-1};
