@@ -291,13 +291,85 @@ public class bst{
        else if(root.val<x&&root.val<y) root=root.left;
        else return root;
    }
-   public static Node maxNodefromLca(Node root, int x){
+   public static Node maxNodefromLca(Node p, int x){
     if(node==null) return null;
-    while(root.data!=x){
-        if(root.left!=null){
-        if(root.data>x)
-       
+    int mx=-1;
+    while(p.data!=x){
+        if(p.data>x){
+            mx=Math.max(mx,p.data);
+            p=p.left;
+        }
+        else{
+            mx=Math.max(mx,p.data);
+            p=p.right;
         }
     }
+    return Math.max(mx,x);
 }
+    public Node findMax(Node node, int x, int y){
+       Node lca=lca(node,x,y);
+       return Math.max(maxNodefromLca(node,x),maxNodefromLca(node,y));
+    }
+
+    static int maxDiff=(int)1e8;
+     
+    // Return the minimum absolute difference between any tree node and the integer K
+    static void findKey(Node root,int K){
+        if(root==null) return;
+            if(root.data==K) {
+                maxDiff=0;
+                return ;}
+            maxDiff=Math.min(maxDiff,Math.abs(root.data-K));
+            if(K<root.data){
+              findKey(root.left,K);  
+            } else{
+            findKey(root.right,K);
+            }
+    } 
+    static int maxDiff(Node  root, int K) 
+    { 
+        findKey(root,K);
+        return maxDiff;
+    } 
+
+    static void leafNodes(int preorder[], int n) 
+{ 
+    int inorder[] = new int[n];  
+  
+    for (int i = 0; i < n; i++) 
+        inorder[i] = preorder[i]; 
+  
+    Arrays.sort(inorder); 
+  
+    leafNodesRec(preorder, inorder, 0, n - 1, n); 
+} 
+    static void leafNodesRec(int[] preorder, int[] inorder, int l, int r, int tle){
+        if(l==r){
+            System.out.println(preorder[l]);
+        }
+        if(l<0||r>n||l>r) return;
+        int idx=l;
+        
+        while(inorder[idx]!=preorder[l]){
+            idx++;
+        }
+        leafNodesRec(preorder,inorder,l,idx-1,tle);
+        leafNodesRec(preorder,inorder,idx+1,r,tle);
+    }
+
+    // 
+    int sum=0;
+    public void modifyBST(Node root){
+        if(root==null) return;
+        modifyBST(root.right);
+        sum=sum+root.data;
+        root.data=sum;
+        modifyBST(root.left);
+    }
+    public Node modify(Node root)
+    {   int sum=0;
+        modifyBST(root);
+        return root;
+    }
+    
 }
