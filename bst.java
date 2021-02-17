@@ -285,4 +285,19 @@ public class bst{
        if(count>k) return res;
        return res+ksmallestElementSumRec(root.right,k);
    }
+   public static Node lca(Node root, int x, int y){
+       if(root==null) return null;
+       if(root.val>x&&root.val>y) root=root.left;
+       else if(root.val<x&&root.val<y) root=root.left;
+       else return root;
+   }
+   public static Node maxNodefromLca(Node root, int x){
+    if(node==null) return null;
+    while(root.data!=x){
+        if(root.left!=null){
+        if(root.data>x)
+       
+        }
+    }
+}
 }
