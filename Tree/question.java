@@ -273,4 +273,56 @@ int maxPathAns=-(int)1e8;
     {
         return treeToDoublyList(root);
     } 
+    public static class Pair{
+        int sz;
+        int max=-(int)1e8;
+        int min=(int)1e8;
+        int ans;
+        Boolean isBST=true;
+        Pair(int sz,int max, int min ,int ans,Boolean isBST){
+            this.sz=sz;
+            this.max=max;
+            this.min=min;
+            this.ans=ans;
+            this.isBST=isBST;
+        }
+    }
+    static Pair largestBSTBT(Node root)
+    {
+        if (root == null) 
+        return new Pair(0,-(int)1e8 ,(int)1e8, 0, true); 
+    if (root.left == null && root.right == null) 
+        return new Pair(1, root.data, root.data, 1, true); 
+   
+    Pair l = largestBSTBT(root.left); 
+    Pair r = largestBSTBT(root.right); 
+  
+    Pair ret=new Pair(0,-(int)1e8 ,(int)1e8, 0, true);  
+    ret.sz = (1 + l.sz + r.sz); 
+  
+    if (l.isBST && r.isBST && l.max < root.data && 
+            r.min > root.data) 
+    { 
+        ret.min = Math.min(l.min, Math.min(r.min, root.data)); 
+        ret.max = Math.max(r.max, Math.max(l.max, root.data)); 
+   
+        ret.ans = ret.sz; 
+        ret.isBST = true; 
+  
+        return ret; 
+    } 
+  
+    ret.ans = Math.max(l.ans, r.ans); 
+    ret.isBST = false; 
+  
+    return ret; 
+    }
+    static int largestBst(Node root)
+    {
+        if(root ==null) return 0;
+        Pair res=largestBSTBT(root);
+        return res.ans;
+    }
+    
+    
 }
