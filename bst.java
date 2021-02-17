@@ -206,4 +206,83 @@ public class bst{
         }
         } 
     }
+
+    //construct bst from level order
+    public Node LevelOrder(Node root, int data){
+        if(root==null){
+            Node newRoot=new Node(data);
+            newRoot.left=null; 
+            newRoot.right=null;
+            root=newRoot;
+            return root;
+        }
+        else if(data<root.data){
+           root.left= LevelOrder(root.left,data);
+        }else if(data>root.data){
+          root.right= LevelOrder(root.right,data);
+        }
+        return root;
+    }
+    public Node constructBST(int[] arr){
+       Node root=null;
+       for(int i=0;i<arr.length;i++){
+           root=LevelOrder(root,arr[i]);
+       }
+       return root;
+    }
+
+    //dead end in bst
+    public static void putLeafMap(Node root,HashSet<Integer> set, HashSet<Integer> leafSet)
+    { 
+        if(root==null) return;
+        set.add(root.val);
+        if(root.left==null||root.right==null){
+             leafSet.add(root.val);
+             return;
+        }     
+        putLeafMap(root.left);
+        putLeafMap(root.right);
+    }
+    public static boolean isDeadEnd(Node root)
+    {   HashSet<Integer> set = new HashSet<Integer>(); 
+        HashSet<Integer> leafSet = new HashSet<Integer>();
+        
+        putLeafMap(root,set,leafSet);
+        for(Integer data: leafSet){
+            if(data==1) return true;
+            if(set.contains(data-1)&&set.contains(data+1)) return true;
+        }
+        return false;
+    }
+    // alternate dead end;
+    public static boolean DeadEnd(Node root,int min, int max)
+    { if(root==null) return false;
+      if(root.data==min+1&&root.data==max-1){
+          return true;
+      }
+      return DeadEnd(root.left,min,root.data)||DeadEnd(root.right,root.data,max);
+    }
+    public static boolean isDeadEnd(Node root)
+    {
+        return DeadEnd(root, 0, (int)1e8);
+    }
+    public Node deleteOutofRangeNode(Node root, int min, int max){
+        if(root==null) return null;
+        deleteOutofRangeNode(root.left,min,max);
+        deleteOutofRangeNode(root.right,min,max);
+        if(!(root.val>=min &&root.val<=max)){
+            DeleteInBST_(root,root.val);
+        }
+        return root;
+    }   
+    static int ksmallestElementSumRec(Node root, int k)
+   {
+       int count=0;
+       int res=ksmallestElementSumRec(root.left,k);
+       if(count>k) return res;
+       res+=root.data;
+       count++;
+       if(count>k) return res;
+       return res+ksmallestElementSumRec(root.right,k);
+   }
 }
