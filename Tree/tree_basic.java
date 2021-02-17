@@ -354,7 +354,33 @@ public class tree_basics{
         int n=pre.length;
         return construct(pre,0,n-1,post,0,n-1);
     }
-
+    public static TreeNode rightMostNode(TreeNode next, TreeNode curr){
+        while(next.right!=null&&next.right!=curr){
+            next=next.right;
+        }
+        return next;
+    }
+    public static void morrrisTraveral(TreeNode root){
+    TreeNode curr=root;
+    while(curr!=null){
+        TreeNode next=curr.left;
+        if(next==null){
+        System.out.println(curr.val+" ");
+        curr=curr.right;
+        }
+        else{
+            TreeNode rightMost=rightMostNode(curr);
+            if(rightMost==null){//thread create;
+                rightMost.next=curr;
+                curr=curr.left;
+            } else{
+                rightMost.next=null;
+                System.out.println(curr.val+" ");
+                curr=curr.right;
+            }
+        }
+    }
+    }
     public static void solve(){
         int[] arr={10,20,40,-1,-1,50,80,-1,-1,90,-1,-1,30,60,100,-1,-1,-1,70,110,-1,-1,120,-1,-1};
         Node root=constructTree(arr);
