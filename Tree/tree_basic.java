@@ -381,6 +381,23 @@ public class tree_basics{
         }
     }
     }
+    //construct tree form preorder and preordr LN
+    int idx=0;
+    Node constructTree_(int[] pre, char preLN[], int n){
+        if(idx>=n) return null;
+        Node root=new Node(pre[idx]);
+        if(preLN[idx++]=='N'){
+            root.left=constructTree_(pre,preLN,n);
+            root.right=constructTree_(pre,preLN,n);
+        }
+        return root;
+    }
+    Node constructTree(int n, int pre[], char preLN[]){
+	    
+	    
+	    return constructTree_(pre,preLN,n);
+    }
+    //
     public static void solve(){
         int[] arr={10,20,40,-1,-1,50,80,-1,-1,90,-1,-1,30,60,100,-1,-1,-1,70,110,-1,-1,120,-1,-1};
         Node root=constructTree(arr);
