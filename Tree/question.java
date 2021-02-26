@@ -11,6 +11,44 @@ public class question{
                 this.right = right;
            }
         }
+    
+    //burning tree;
+    public static boolean rootToNodePath(Node node, int data,ArrayList<Node> ans){
+        if(node==null) return false;
+        if(node.data==data) 
+        {   ans.add(node);
+            return true;
+        }
+        ans.add(node);
+        boolean res=rootToNodePath(node.left,data,ans)||rootToNodePath(node.right,data,ans);
+        if(!res)
+        {
+            ans.remove(ans.size()-1);
+        }
+        return true;
+    }
+    public void kDown(TreeNode root, TreeNode block, int time, ArrayList<TreeNode> ans){
+      if(node==null||node==block) return;
+
+      if(ans.size()==time) ans.add(new ArrayList<>());
+
+      ans.get(time).add(root);
+      kDown(root.left,block,time+1,ans);
+      kDown(root.right,block,time+1,ans);
+    }
+    public ArrayList<Integer> burningTree(TreeNode node, int data){
+      ArrayList<TreeNode> list=new ArrayList<>(); 
+      rootToNodePath(node,data,res);
+
+      ArrayList<Integer> ans=new ArrayList<>(); 
+      TreeNode block=null;
+      for(int i=0;i<list.size();i++){
+          kDown(list.get(i),block,i,ans);
+          block=list.get(i);
+      }
+      return ans;
+    }   
+    // 
     public boolean hasPathSum(TreeNode root, int targetSum) {
         if(root==null) return false;
         if(root.left==null||root.right==null){
@@ -167,6 +205,7 @@ int maxPathAns=-(int)1e8;
          if(root==null) return 0;
          maxPath(root,0);
      }
+     
      //
      public static boolean leafSameLevel(TreeNode node){
        if(node==null) return true;
