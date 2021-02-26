@@ -68,8 +68,9 @@ public class avl{
    // bst function
     public static Node addData(TreeNode node, int data){
        if(root==null) return new TreeNode(data);
-       if(node.data>data) addData(node.left,data);
-       else if(node.data<data) addData(node.right,data);
+       if(node.data>data) node.left=addData(node.left,data);
+       else if(node.data<data) node.right=addData(node.right,data);
+       return getRotation(node);
    }
     
     public static int maximum(Node node) {
