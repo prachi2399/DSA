@@ -467,7 +467,7 @@ public class bsf{
         return maxwidth;
      }
 
-     // check id leafs are at same level
+     // check if leafs are at same level
      public static boolean checkLeaf(TreeNode root){
          if(root==null) return true
         LinkedList<TreeNode> que=new LinkedList<>();
