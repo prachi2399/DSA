@@ -144,17 +144,17 @@ int maxPathAns=-(int)1e8;
     }
 
        //convert tree to sum tree;
-       int sumTree(Node node){
-           if(node==null) return 0;
-           int nodeVal=node.data;
-           int lans=sumTree(node.left);
-           int rans=sumTree(node.right);
-           node.data=lans+rans;
-           return node.data+nodeVal;
+    int sumTree(Node node){
+        if(node==null) return 0;
+        int nodeVal=node.data;
+        int lans=sumTree(node.left);
+        int rans=sumTree(node.right);
+        node.data=lans+rans;
+        return node.data+nodeVal;
        }
 
        // convert tree into left sum;
-       int LeftSumTree(Node node){
+    int LeftSumTree(Node node){
         if(node==null) return 0;
         if(node.left==null&&node.right==null) return node.data;
         int lans=sumTree(node.left);
@@ -162,7 +162,16 @@ int maxPathAns=-(int)1e8;
         node.data=lans+node.data;
         return node.data+rans;
     }
-
+    
+    //popuate inorder succesor of each node;
+    Node next=null;
+    public static void inorderSuccesor(Node node){
+    if(node==null) return;
+    inorderSuccesor(node.right);
+    node.next=next;
+    next=nod;
+    inorderSuccesor(node.left);
+    }
     //clone tree with random pointers
     public static Tree copyLeftRightTree(Tree tree,HashMap<Tree,Tree> map){
         if(tree==null) return null;
@@ -173,22 +182,36 @@ int maxPathAns=-(int)1e8;
         return clone;
       }
       
-     public static void copyRandom(Tree root, Tree clone , HashMap<Tree,Tree> map){
+    public static void copyRandom(Tree root, Tree clone , HashMap<Tree,Tree> map){
          if(root==null) return;
          clone.random=map.get(root.random);
          copyRandom(root.left,clone.left,map);
          copyRandom(root.right,clone.right,map);
-     } 
-     public static Tree cloneTree(Tree tree){
+    }
+
+    public static Tree cloneTree(Tree tree){
         HashMap<Tree,Tree> map=new HashMap<>();
         Tree clone=copyLeftRightTree(tree,map);
          copyRandom(tree,clone,map);
          return clone;
-     }
-     //maximum leaf to root path;
-     public int maxSum=0;
-     public TreeNode leafNode=null;
-     public int maxPath(TreeNode root, int currSum){
+    }
+    
+    // foldabe tree
+    boolean isMirror(Node node1, Node node2){
+        if(node1==null&&node2==null) return true;
+        if(node1==null||node2==null) return false;
+         
+        return isMirror(node1.left,node2.right)&&isMirror(node1.right,node2.left); 
+    }
+    boolean IsFoldable(Node node) 
+	{ if(node==null) return true;
+	return isMirror(node.left,node.right);
+	} 
+
+    //maximum leaf to root path;
+    public int maxSum=0;
+    public TreeNode leafNode=null;
+    public int maxPath(TreeNode root, int currSum){
           if(node==null) return 0;
           currSum+=node.val;
           if(node.left==null&&node.right==null){
@@ -205,7 +228,36 @@ int maxPathAns=-(int)1e8;
          if(root==null) return 0;
          maxPath(root,0);
      }
+     // connext leafs to DLL;
      
+     Node head;  
+     Node prev;
+     public Node convertToDLL_(Node root)
+     {if (root == null) 
+             return null; 
+         if (root.left == null && root.right == null)  
+         { 
+             if (head == null)  
+             { 
+                 head = root; 
+                 prev = root; 
+             }  
+             else 
+             { 
+                 prev.right = root; 
+                 root.left = prev; 
+                 prev = root; 
+             } 
+             return null; 
+         } 
+         root.left = convertToDLL_(root.left); 
+         root.right = convertToDLL_(root.right); 
+         return root; 
+     }
+     public Node convertToDLL(Node node)
+     {   convertToDLL_(node);
+         return head; 
+     }
      //
      public static boolean leafSameLevel(TreeNode node){
        if(node==null) return true;
